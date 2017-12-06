@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 RUN apt-get update \
-  && apt-get install -y rubygems rubygems-integration \
+  && apt-get install -y rubygems rubygems-integration ruby-all-dev build-essential \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /var/cache/oracle-jdk8-installer
 
