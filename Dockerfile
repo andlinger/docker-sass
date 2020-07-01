@@ -1,9 +1,10 @@
-FROM node:9.4.0-stretch
+FROM node:14-alpine
 
-RUN apt-get update \
-  && apt-get install -y rubygems rubygems-integration ruby-all-dev build-essential python-pip jq jpegoptim optipng  \
-  && rm -rf /var/lib/apt/lists/*
+RUN apk update \
+  && apk add --no-cache jq
 
-RUN gem install sass -v 3.5.3
-RUN pip install yq
-RUN npm install -g svgo
+RUN wget -q -O /usr/bin/yq $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/latest | jq -r '.assets[] | select(.name == "yq_linux_amd64") | .browser_download_url') \
+  && chmod +x /usr/bin/yq
+RUN npm install -g svgo sass
+
+ENTRYPOINT ["/usr/bin/env"]
