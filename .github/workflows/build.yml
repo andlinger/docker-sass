@@ -19,14 +19,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
           platforms: linux/amd64,linux/arm64
-          tags: andlinger/docker-sass:${{ github.ref_name }}
-          push: false
-      - name: Push image to GitHub container registry
-        run: |
-          docker buildx imagetools create \
-            --tag ghcr.io/andlinger/docker-sass:${{ github.ref_name }} \
-            andlinger/docker-sass:${{ github.ref_name }}
+          tags: ghcr.io/andlinger/docker-sass:${{ github.ref_name }}
+          push: true
